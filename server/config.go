@@ -5,15 +5,17 @@ import (
 )
 
 const (
-	RpcServiceName = "RPC_SERVICE_NAME"
-	RpcServiceAddr = "RPC_SERVICE_ADDR"
-	RpcServicePort = "RPC_SERVICE_PORT"
+	RpcServiceName    = "SERVICE_NAME"
+	RpcServiceAddr    = "SERVICE_ADDR"
+	RpcServicePort    = "SERVICE_PORT"
+	RpcServiceMountIp = "SERVICE_MOUNT_IP"
 )
 
 var (
-	ServiceName string
-	ServiceAddr string
-	ServicePort string
+	ServiceName    string
+	ServiceAddr    string
+	ServicePort    string
+	ServiceMountIp string
 )
 
 func initConfigFromENV() {
@@ -27,6 +29,10 @@ func initConfigFromENV() {
 
 	if v := os.Getenv(RpcServicePort); v != "" {
 		ServicePort = v
+	}
+
+	if v := os.Getenv(RpcServiceMountIp); v != "" {
+		ServiceMountIp = v
 	}
 }
 
@@ -44,10 +50,14 @@ func initConfigFromFile() {
 	if v := c.DefaultString("ServicePort", ""); v != "" {
 		ServicePort = v
 	}
+
+	if v := c.DefaultString("ServiceMountIp", ""); v != "" {
+		ServiceMountIp = v
+	}
 }
 
 func checkConfig() {
-	if ServiceName == "" || ServiceAddr == "" || ServicePort == "" {
+	if ServiceName == "" || ServiceAddr == "" || ServicePort == "" || ServiceMountIp == "" {
 		panic("rpc config load miss")
 	}
 }
