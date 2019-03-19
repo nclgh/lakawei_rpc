@@ -28,6 +28,7 @@ func Init() {
 func Run(rcvr interface{}) error {
 	rpc.Register(rcvr)
 	tcpAddr, err := net.ResolveTCPAddr("tcp4", fmt.Sprintf("%s:%s", ServiceMountIp, ServicePort))
+	logrus.Infof("If you want to service for public net. you add env SERVICE_MOUNT_IP=${internal ip for public}")
 	logrus.Infof("Service to listening tcp service %s %s:%s", ServiceName, ServiceMountIp, ServicePort)
 
 	if err != nil {
