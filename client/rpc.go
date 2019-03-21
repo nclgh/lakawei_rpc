@@ -79,7 +79,7 @@ func Init(serviceName string) (*RpcClient, error) {
 	return cli, nil
 }
 
-func (cli *RpcClient) Call(ctx *RpcRequestCtx, method string, req interface{}, ret interface{}) (interface{}, error) {
+func (cli *RpcClient) Call(ctx *RpcRequestCtx, method string, req interface{}, ret interface{}) error {
 	cli.once.Do(func() {
 		panic("rpc addr not init")
 	})
@@ -115,12 +115,12 @@ func (cli *RpcClient) Call(ctx *RpcRequestCtx, method string, req interface{}, r
 	for {
 		select {
 		case timeout := <-expireCh:
-			return nil, timeout
+			return timeout
 		case done := <-doneCh:
 			if err, ok := done.(error); ok {
-				return nil, err
+				return err
 			}
-			return done, nil
+			return nil
 		}
 	}
 }
