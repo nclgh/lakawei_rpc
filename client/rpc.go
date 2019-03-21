@@ -67,7 +67,7 @@ func InitClient(serviceName string) (*RpcClient, error) {
 	sub := et.Sub(st).Nanoseconds()
 	fmt.Println("first connect cost", sub, "ns")
 	if len(cli.clients) <= 0 {
-		return nil, fmt.Errorf("service %s has no instance", cli.ServiceName)
+		logrus.Errorf("service %s has no instance", cli.ServiceName)
 	}
 
 	go func() {
