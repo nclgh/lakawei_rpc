@@ -56,7 +56,7 @@ func (ctx *RpcRequestCtx) GetRetryTime() int {
 	return ctx.RetryTime
 }
 
-func Init(serviceName string) (*RpcClient, error) {
+func InitClient(serviceName string) (*RpcClient, error) {
 	cli := &RpcClient{}
 	cli.ServiceName = serviceName
 	cli.clients = make(map[string]*rpc.Client)
