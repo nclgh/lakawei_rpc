@@ -10,6 +10,7 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/nclgh/lakawei_discover"
+	"time"
 )
 
 var (
@@ -65,6 +66,8 @@ func waitSignal(errCh <-chan error) error {
 		select {
 		case sig := <-ch:
 			fmt.Printf("Got signal: %s, Exit..\n", sig)
+		    // sleep to wait running task finish
+			time.Sleep(5 * time.Second)
 			return errors.New(sig.String())
 		case err := <-errCh:
 			fmt.Printf("Engine run error: %s, Exit..\n", err)

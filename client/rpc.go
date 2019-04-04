@@ -72,8 +72,8 @@ func InitClient(serviceName string) (*RpcClient, error) {
 
 	go func() {
 		for {
-			cli.freshRemoteAddr()
 			time.Sleep(AddrUpdateTime)
+			cli.freshRemoteAddr()
 		}
 	}()
 	return cli, nil
@@ -97,13 +97,13 @@ func (cli *RpcClient) Call(ctx *RpcRequestCtx, method string, req interface{}, r
 			methodRouter := fmt.Sprintf("%s.%s", cli.ServiceName, method)
 			err = rpcCli.Call(methodRouter, req, ret)
 			if err != nil {
-				logrus.Warnf("call cli.ServiceName method failed at %v err: %v", i, err)
+				logrus.Warnf("call %v failed at %v err: %v", methodRouter, i, err)
 				continue
 			}
 			doneCh <- ret
 			return
 		}
-		logrus.Errorf("call cli.ServiceName method failed err: %v", err)
+		logrus.Errorf("call %v %s failed err: %v", cli.ServiceName, method, err)
 		doneCh <- err
 	}()
 
